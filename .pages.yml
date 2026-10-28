@@ -1,0 +1,93 @@
+media:
+  input: assets
+  output: /assets
+  rename: safe
+  categories: [image]
+content:
+  - name: news
+    label: Actualités
+    type: collection
+    path: content/news
+    format: json
+    filename: "{primary}.json"
+    view:
+      fields: [title, date, category, published]
+      primary: title
+      sort: [date, title]
+      default:
+        sort: date
+        order: desc
+    fields:
+      - name: title
+        label: Titre
+        type: string
+        required: true
+      - name: category
+        label: Rubrique
+        type: select
+        options:
+          values: [Sportif, Vie du club, Événement, Inscriptions, Partenaires]
+      - name: date
+        label: Date de publication
+        type: date
+        options:
+          format: yyyy-MM-dd
+      - name: summary
+        label: Résumé (carte d'accueil)
+        type: text
+      - name: body
+        label: Article complet
+        type: text
+      - name: image
+        label: Photo
+        type: image
+      - name: published
+        label: Publier sur le site
+        type: boolean
+  - name: teams
+    label: Equipes et entraînements
+    type: file
+    path: content/teams.json
+    format: json
+    list: true
+    fields:
+      - name: id
+        label: Identifiant (unique)
+        type: string
+        required: true
+      - name: title
+        label: Catégorie
+        type: string
+        required: true
+      - name: group
+        label: Famille
+        type: select
+        options:
+          values: [École de hand, Féminines, Masculins, Seniors, Loisirs, Autres]
+      - name: subtitle
+        label: Précision (entente ou nombre d'équipes)
+        type: string
+      - name: coaches
+        label: Entraîneurs
+        type: string
+      - name: sessions
+        label: Créneaux d'entraînement
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{day} — {hours}"
+        fields:
+          - name: day
+            label: Jour
+            type: string
+          - name: hours
+            label: Horaires
+            type: string
+          - name: location
+            label: Gymnase
+            type: string
+      - name: urls
+        label: Liens FFHandball (une URL par équipe)
+        type: string
+        list: true
